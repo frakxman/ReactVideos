@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Components
 import Header from '../components/Header';
@@ -11,45 +11,48 @@ import Search from '../components/Search';
 // Styles
 import '../assets/styles/App.scss';
 
-const App = () => (
-    <div className="App">
-        <Header />
-        <Search />
-        <Categories title="My List">
-            <Carousel>
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-            </Carousel>
-        </Categories>
+const App = () => {
+    const [ videos, setVideos ] = useState({ myList: [], trends: [], originals: []});
 
-        <Categories title="Trends">
-            <Carousel>
-                <CarouselItem />
-            </Carousel>
-        </Categories>
+    useEffect(() => {
+        fetch( 'http://localhost:3000/initialState' )
+            .then( response => response.json())
+            .then( data => setVideos( data ));
+    }, []);
 
-        <Categories title="Originals">
-            <Carousel>
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-            </Carousel>
-        </Categories>
+    return (
+        <div className="App">
+            <Header />
+            <Search />
+            { videos.myList.length > 0 && 
+                <Categories title="My List">
+                    <Carousel>
+                    { videos.myList.map( item => 
+                        <CarouselItem  key={ item.id } { ...item } />                    
+                    )}
+                    </Carousel>
+                </Categories>
+            }
 
-        <Footer />
-    </div>
-);
+            <Categories title="Trends">
+                <Carousel>
+                    { videos.trends.map( item => 
+                        <CarouselItem  key={ item.id } { ...item } />                    
+                    )}
+                </Carousel>
+            </Categories>
+
+            <Categories title="Originals">
+                <Carousel>
+                { videos.originals.map( item => 
+                    <CarouselItem  key={ item.id } { ...item } />                    
+                )}
+                </Carousel>
+            </Categories>
+
+            <Footer />
+        </div>
+    )
+};
 
 export default App;
