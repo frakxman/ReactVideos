@@ -1,33 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 // Components
-import Header from '../components/Header';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import Categories from '../components/Categories';
-import Footer from '../components/Footer';
 import Search from '../components/Search';
 
 // Hooks 
-import useInitialState from '../hooks/useInitialState';
+// import useInitialState from '../hooks/useInitialState';
 
 // Styles
 import '../assets/styles/App.scss';
 
-const API = 'http://localhost:3000/initialState';
+// const API = 'http://localhost:3000/initialState';
 
-const Home = () => {
+const Home = ({ myList, trends, originals }) => {
 
-    const initialState = useInitialState( API );
+    // const initialState = useInitialState( API );
 
     return (
         <>
             <Search />
-            { initialState.myList.length > 0 && 
+            { myList.length > 0 && 
                 <Categories title="My List">
                     <Carousel>
-                    { initialState.myList.map( item => 
-                        <CarouselItem  key={ item.id } { ...item } />                    
+                    { myList.map( item => 
+                        <CarouselItem 
+                            key={ item.id }
+                            { ...item }
+                            isList
+                        />                    
                     )}
                     </Carousel>
                 </Categories>
@@ -35,7 +38,7 @@ const Home = () => {
 
             <Categories title="Trends">
                 <Carousel>
-                    { initialState.trends.map( item => 
+                    { trends.map( item => 
                         <CarouselItem  key={ item.id } { ...item } />                    
                     )}
                 </Carousel>
@@ -43,7 +46,7 @@ const Home = () => {
 
             <Categories title="Originals">
                 <Carousel>
-                { initialState.originals.map( item => 
+                { originals.map( item => 
                     <CarouselItem  key={ item.id } { ...item } />                    
                 )}
                 </Carousel>
@@ -53,4 +56,12 @@ const Home = () => {
     )
 };
 
-export default Home;
+const mapStateToProps = state => {
+    return {
+        myList: state.myList,
+        trends: state.trends,
+        originals: state.originals
+    };
+};
+
+export default connect( mapStateToProps, null ) ( Home );
