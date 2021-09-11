@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Styles
 import '../assets/styles/components/Login.scss';
@@ -33,9 +34,9 @@ const Login = () => (
 			</section>
 			<p className='login__container--register'>
 				You don't have any account 
-                <a href=''>
+                <Link to='/register'>
                     Register
-                </a>
+                </Link>
 			</p>
 		</section>
 	</section>
