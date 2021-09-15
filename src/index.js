@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 
 // Container
-import App from './routes/App';
+import App from './frontend/routes/App';
 
 // Reducer 
-import reducer from './reducers';
+import reducer from './frontend/reducers';
 
 const initialState = {
     "user": {},
