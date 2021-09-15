@@ -32,6 +32,13 @@ const reducer = ( state, action ) => {
                 ...state,
                 playing: state.trends.concat( state.originals ).find( item => item.id === Number( action.payload ) ) || {}
             };
+        case 'GET_VIDEO_SEARCH':            
+            if(action.payload === "") return { ...state, searchResult: [] };
+            const listas = [ ...state.trends, ...state.originals ];
+            return {
+                ...state,
+                searchResult: listas.filter( item => item.title.toLowerCase().includes( action.payload.toLowerCase() ) )
+            };
         default:
             return state;
     }

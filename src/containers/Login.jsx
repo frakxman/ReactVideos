@@ -73,9 +73,9 @@ const Login = props => {
 						</div>
 					</section>
 					<p className='login__container--register'>
-						You don't have any account 
+						You don't have any account {' '}
 						<Link to='/register'>
-							Register
+							<span>Register</span> 
 						</Link>
 					</p>
 				</section>

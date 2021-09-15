@@ -16,7 +16,7 @@ import '../assets/styles/App.scss';
 
 // const API = 'http://localhost:3000/initialState';
 
-const Home = ({ myList, trends, originals }) => {
+const Home = ({ myList, trends, originals, searchResult  }) => {
 
     // const initialState = useInitialState( API );
 
@@ -24,6 +24,21 @@ const Home = ({ myList, trends, originals }) => {
         <>
             <Header />
             <Search />
+
+            { 
+                Object.keys( searchResult ).length > 0 && 
+                    <Categories title="Search results...">
+                        <Carousel>
+                            { searchResult.map( item =>
+                                <CarouselItem 
+                                    key = { item.id } 
+                                    { ...item }
+                                />
+                            )}
+                        </Carousel>
+                    </Categories>                       
+            }
+
             { myList.length > 0 && 
                 <Categories title="My List">
                     <Carousel>
@@ -62,7 +77,8 @@ const mapStateToProps = state => {
     return {
         myList: state.myList,
         trends: state.trends,
-        originals: state.originals
+        originals: state.originals,
+        searchResult: state.searchResult,
     };
 };
 
