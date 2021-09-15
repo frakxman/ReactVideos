@@ -8,6 +8,7 @@ import { registerRequest } from '../actions';
 
 // Styles 
 import '../assets/styles/components/Register.scss';
+import Header from '../components/Header';
 
 const Register = props => { 
     const [ form, setValues ] = useState({
@@ -30,36 +31,39 @@ const Register = props => {
     }
 
     return (
-        <section className="register">
-            <section className="register__container">
-            <h2>Register</h2>
-            <form className="register__container--form" onSubmit={ handleSubmit }>
-                <input
-                    name="name"
-                    className="input"
-                    type="text"
-                    placeholder="Name"
-                    onChange={ handleInput }
-                />
-                <input
-                    name="email"
-                    className="input"
-                    type="email"
-                    placeholder="Email"
-                    onChange={ handleInput }
-                />
-                <input
-                    name="password"
-                    className="input"
-                    type="password"
-                    placeholder="Password"
-                    onChange={ handleInput }
-                />
-                <button className="button">Register me</button>
-            </form>
-            <Link to="/login">Login</Link>
+        <>
+            <Header isRegister />
+            <section className="register">
+                <section className="register__container">
+                <h2>Register</h2>
+                <form className="register__container--form" onSubmit={ handleSubmit }>
+                    <input
+                        name="name"
+                        className="input"
+                        type="text"
+                        placeholder="Name"
+                        onChange={ handleInput }
+                    />
+                    <input
+                        name="email"
+                        className="input"
+                        type="email"
+                        placeholder="Email"
+                        onChange={ handleInput }
+                    />
+                    <input
+                        name="password"
+                        className="input"
+                        type="password"
+                        placeholder="Password"
+                        onChange={ handleInput }
+                    />
+                    <button className="button">Register me</button>
+                </form>
+                <Link to="/login">Login</Link>
+                </section>
             </section>
-        </section>
+        </>
     )
 };
 
