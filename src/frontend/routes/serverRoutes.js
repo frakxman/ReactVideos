@@ -6,10 +6,10 @@ import Player from "../containers/Player";
 import Register from "../containers/Register";
 
 const routes = [
-    { exact: true, path="/", component: Home },
-    { exact: true, path="/login", component: Login },
-    { exact: true, path="/player/:id", component: Player },
-    { exact: true, path="/register", component: Register },
+    { exact: true, path:"/", component: Home },
+    { exact: true, path:"/login", component: Login },
+    { exact: true, path:"/player/:id", component: Player },
+    { exact: true, path:"/register", component: Register },
     { name: 'NotFound', component: NotFound },
 ];
 

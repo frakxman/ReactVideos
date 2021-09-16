@@ -11,7 +11,6 @@ import NotFound from "../containers/NotFound";
 import Player from "../containers/Player";
 import Register from "../containers/Register";
 
-
 const App = () => (
     <BrowserRouter>
         <Layout>
