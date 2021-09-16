@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import webpack from 'webpack';
+import helmet from 'helmet';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
@@ -13,7 +14,6 @@ import initialState from '../frontend/initialState';
 
 // Reducer 
 import reducer from '../frontend/reducers';
-
 
 dotenv.config();
 const { ENV, PORT } = process.env;
@@ -30,6 +30,26 @@ if ( ENV === 'development' ) {
 
     app.use( webpackDevMiddleware( compiler, serverConfig ) );
     app.use( webpackHotMiddleware( compiler ) );
+} else {
+    app.use( express.static(`${__dirname}/public`));
+    app.use( helmet());
+    app.use( helmet.permittedCrossDomainPolicies() );
+    app.use(
+        helmet.contentSecurityPolicy({
+            useDefaults: false,
+            directives: {
+                defaultSrc: ["'self'"],
+                "img-src": ["'self'", "dummyimage.com"],
+                "font-src": ["'self'", "fonts.gstatic.com"],
+                "script-src": [
+                "'self'",
+                "'sha256-fqAyYQw90BvHA2X8Dgsi3fckwxSvBr0kTnVVFxqUOls='",
+                ],
+                "style-src": ["'self'", "fonts.googleapis.com"],
+            },
+        })
+    );
+    app.disable('x-powered-by');
 }
 
 const setResponse = ( html, preloadedState ) => {
@@ -52,6 +72,9 @@ const setResponse = ( html, preloadedState ) => {
 };
 
 const renderApp = ( req, res ) => {
+    if( ENV != "development" ){
+        res.set("Content-Security-Policy", "default-src'self'; img-src'self' https://dummyimage.com; style-src-elem 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com");
+    }
     const store = createStore( reducer, initialState );
     const preloadedState = store.getState();
     const html = renderToString(
@@ -68,5 +91,5 @@ const renderApp = ( req, res ) => {
 app.get('*', renderApp);
 
 app.listen( PORT, ( err ) => {
-    ( err ) ? console.error( err ) : console.log(`Server runnig in port ${ PORT }`);
+    ( err ) ? console.error( err ) : console.log(`Server runnig mode ${ ENV } in port ${ PORT }`);
 });

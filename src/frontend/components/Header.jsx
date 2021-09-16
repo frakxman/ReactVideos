@@ -15,6 +15,7 @@ import logo from '../assets/statics/react.gif';
 import userIcon from '../assets/statics/user.png';
 
 const Header = props => {
+    
     const { user, isLogin, isRegister, isNotFound } = props;
     const hasUser = Object.keys(user).length > 0;
 
